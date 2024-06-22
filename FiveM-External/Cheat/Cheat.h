@@ -9,9 +9,6 @@
 class Cheat
 {
 public:
-    // System
-    bool Init();
-
     // Render
 	void RenderInfo();
 	void RenderMenu();
