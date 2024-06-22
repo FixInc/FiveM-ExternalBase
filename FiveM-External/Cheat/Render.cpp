@@ -176,7 +176,6 @@ void Cheat::RenderMenu()
     ImGui::End();
 }
 
-// NY - 5300, -5000, 83
 void Cheat::RenderESP()
 {
     CPed* pLocal = &local;
@@ -213,7 +212,7 @@ void Cheat::RenderESP()
         Vector3 gFoot1 = pEntity->GetBonePosition(1);
         Vector3 gFoot2 = pEntity->GetBonePosition(2);
 
-        // Box—p
+        // Boxâ€”p
         Vector2 pBase{}, pFoot1{}, pFoot2{}, pHead{}, pNeck{}, pLocalPos{};
         if (Vec3_Empty(gHead) || Vec3_Empty(gNeck) || Vec3_Empty(gFoot1) || Vec3_Empty(gFoot2))
             continue;
