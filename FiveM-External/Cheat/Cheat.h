@@ -1,24 +1,29 @@
 #pragma once
-#include "..\ImGui\imgui.h"
-#include "..\ImGui\imgui_impl_win32.h"
-#include "..\ImGui\imgui_impl_dx11.h"
-#include "..\Utils\Config\Config.h"
-#include "SDK\SDK.h"
+#include "../ImGui/imgui.h"
+#include "../ImGui/imgui_impl_win32.h"
+#include "../ImGui/imgui_impl_dx11.h"
+#include "../Utils/Config/Config.h"
+#include "SDK/CPed/CPed.h"
 #include <vector>
+
+// Render.cpp : レンダリングを行う処理を記述
+// Features.cpp : レンダリングを行わない処理を記述
 
 class Cheat
 {
 public:
-    // Render
 	void RenderInfo();
 	void RenderMenu();
 	void RenderESP();
+    void UpdateList();
+    void Misc();
 private:
     DWORD OverlayFlags = ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoInputs | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar;
 
     uintptr_t world;
     uintptr_t viewport;
     CPed local;
+    std::vector<CPed> EntityList;
 
     void KeyBinder(int &target_key);
 

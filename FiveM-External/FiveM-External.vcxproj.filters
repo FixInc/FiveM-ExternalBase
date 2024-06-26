@@ -29,6 +29,12 @@
     <Filter Include="Utils\SimpleMath">
       <UniqueIdentifier>{fac171d2-61e5-453f-a29f-5547888f79c3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Cheat\SDK\Game">
+      <UniqueIdentifier>{b3c7d8a5-0409-45e8-a23c-281a7c17b910}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Cheat\SDK\CPed">
+      <UniqueIdentifier>{a198e712-ad27-4d85-b4cf-8f93e6483fec}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Overlay\Overlay.h">
@@ -42,9 +48,6 @@
     </ClInclude>
     <ClInclude Include="Cheat\Cheat.h">
       <Filter>Cheat</Filter>
-    </ClInclude>
-    <ClInclude Include="Cheat\SDK\SDK.h">
-      <Filter>Cheat\SDK</Filter>
     </ClInclude>
     <ClInclude Include="Utils\SimpleMath\SimpleMath.h">
       <Filter>Utils\SimpleMath</Filter>
@@ -73,6 +76,15 @@
     <ClInclude Include="ImGui\imstb_truetype.h">
       <Filter>ImGui</Filter>
     </ClInclude>
+    <ClInclude Include="Cheat\SDK\Game\GameSDK.h">
+      <Filter>Cheat\SDK\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Cheat\SDK\CPed\CPed.h">
+      <Filter>Cheat\SDK\CPed</Filter>
+    </ClInclude>
+    <ClInclude Include="Cheat\SDK\offset.h">
+      <Filter>Cheat\SDK</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Overlay\Overlay.cpp">
@@ -89,9 +101,6 @@
     </ClCompile>
     <ClCompile Include="Cheat\Render.cpp">
       <Filter>Cheat</Filter>
-    </ClCompile>
-    <ClCompile Include="Cheat\SDK\SDK.cpp">
-      <Filter>Cheat\SDK</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>ソース ファイル</Filter>
@@ -116,6 +125,12 @@
     </ClCompile>
     <ClCompile Include="ImGui\imgui_widgets.cpp">
       <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Cheat\SDK\Game\GameSDK.cpp">
+      <Filter>Cheat\SDK\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Cheat\SDK\CPed\CPed.cpp">
+      <Filter>Cheat\SDK\CPed</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

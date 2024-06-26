@@ -8,8 +8,8 @@ class Memory
 {
 private:
 	HWND TargetHwnd;
-	char TargetWindow[32] = "�g���ĂȂ���";
-	char TargetClass[32]  = "grcWindow";
+	char TargetWindow[32] = "未使用";		// ウィンドウのタイトル名
+	char TargetClass[32]  = "grcWindow";	// ウィンドウのクラス名
 	
 	uintptr_t GetModuleBase(const std::string module);
 public:

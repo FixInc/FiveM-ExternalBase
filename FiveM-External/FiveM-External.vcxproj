@@ -116,6 +116,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -131,6 +132,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -141,7 +143,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Cheat\Cheat.h" />
-    <ClInclude Include="Cheat\SDK\SDK.h" />
+    <ClInclude Include="Cheat\SDK\CPed\CPed.h" />
+    <ClInclude Include="Cheat\SDK\Game\GameSDK.h" />
+    <ClInclude Include="Cheat\SDK\offset.h" />
     <ClInclude Include="ImGui\imconfig.h" />
     <ClInclude Include="ImGui\imgui.h" />
     <ClInclude Include="ImGui\imgui_impl_dx11.h" />
@@ -158,7 +162,8 @@
   <ItemGroup>
     <ClCompile Include="Cheat\Features.cpp" />
     <ClCompile Include="Cheat\Render.cpp" />
-    <ClCompile Include="Cheat\SDK\SDK.cpp" />
+    <ClCompile Include="Cheat\SDK\CPed\CPed.cpp" />
+    <ClCompile Include="Cheat\SDK\Game\GameSDK.cpp" />
     <ClCompile Include="ImGui\imgui.cpp" />
     <ClCompile Include="ImGui\imgui_demo.cpp" />
     <ClCompile Include="ImGui\imgui_draw.cpp" />

@@ -1,94 +1,61 @@
 #include "Cheat.h"
 #include "..\Overlay\Overlay.h"
 
-// Menu
-const char* LineStartList[] = { "Local", "Screen Under", "Screen Center", "Screen Top" };
-const char* SkeletonColorList[] = { "ESP", "User" };
-const char* CrosshairList[] = { "Cross", "Circle" };
-
-// Resource
-int SkeletonBoneList[][2] = { { 7, 6 }, { 7, 5 }, { 7, 8 }, { 8, 3 }, { 8, 4 } };
-std::vector<std::string> MenuFCList = { "Local", "AimBot", "Visual", "Game", "Setting" };
+std::vector<std::string> MenuFCList = { "AimBot", "Visual", "Misc" };
 
 void Cheat::RenderInfo()
 {
-    // W
+    // ウォーターマーク的な？
     std::string text = "FiveM | " + std::to_string((int)ImGui::GetIO().Framerate) + "FPS";
     String(ImVec2(8.f, 8.f), ImColor(1.f, 1.f, 1.f, 1.f), text.c_str());
 
-    // InitAddress
-    world = m.Read<uintptr_t>(m.BaseAddress + offset::GameWorld);
-    local.ptr = m.Read<uintptr_t>(world + 0x8);
-    viewport = m.Read<uintptr_t>(m.BaseAddress + offset::ViewPort);
-
-    // Crosshair
-    if (g.Crosshair)
-    {
-        switch (g.CrosshairType)
-        {
-        case 0:
-            ImGui::GetBackgroundDrawList()->AddLine(ImVec2(((float)g.GameRect.right / 2.f + 4), ((float)g.GameRect.bottom / 2.f)), ImVec2(((float)g.GameRect.right / 2.f + 10), ((float)g.GameRect.bottom / 2.f)), ImColor(1.f, 1.f, 1.f, 1.f), 1);
-            ImGui::GetBackgroundDrawList()->AddLine(ImVec2(((float)g.GameRect.right / 2.f - 4), ((float)g.GameRect.bottom / 2.f)), ImVec2(((float)g.GameRect.right / 2.f - 10), ((float)g.GameRect.bottom / 2.f)), ImColor(1.f, 1.f, 1.f, 1.f), 1);
-            ImGui::GetBackgroundDrawList()->AddLine(ImVec2(((float)g.GameRect.right / 2.f), ((float)g.GameRect.bottom / 2.f + 4)), ImVec2(((float)g.GameRect.right / 2.f), ((float)g.GameRect.bottom / 2.f + 10)), ImColor(1.f, 1.f, 1.f, 1.f), 1);
-            ImGui::GetBackgroundDrawList()->AddLine(ImVec2(((float)g.GameRect.right / 2.f), ((float)g.GameRect.bottom / 2.f - 4)), ImVec2(((float)g.GameRect.right / 2.f), ((float)g.GameRect.bottom / 2.f - 10)), ImColor(1.f, 1.f, 1.f, 1.f), 1);
-            break;
-        case 1:
-            ImGui::GetBackgroundDrawList()->AddCircleFilled(ImVec2((float)g.GameRect.right / 2.f, (float)g.GameRect.bottom / 2.f), 2, ImColor(1.f, 1.f, 1.f, 1.f), NULL);
-            break;
-        default:
-            break;
-        }
-    }
+    // クロスヘア
+    ImGui::GetBackgroundDrawList()->AddCircleFilled(ImVec2((float)g.GameRect.right / 2.f, (float)g.GameRect.bottom / 2.f), 3, ImColor(0.f, 0.f, 0.f, 1.f));
+    ImGui::GetBackgroundDrawList()->AddCircleFilled(ImVec2((float)g.GameRect.right / 2.f, (float)g.GameRect.bottom / 2.f), 2, ImColor(1.f, 1.f, 1.f, 1.f));
 }
 
 void Cheat::RenderMenu()
 {
-    // Setup
-    ImVec4* colors = ImGui::GetStyle().Colors;
-    ImGuiStyle& style = ImGui::GetStyle();
     static int Index = 0;
 
     ImGui::SetNextWindowBgAlpha(0.975f);
-    ImGui::SetNextWindowSize(ImVec2(650.f, 450.f));
+    ImGui::SetNextWindowSize(ImVec2(600.f, 450.f));
     ImGui::Begin("FiveM [ EXTERNAL ]", &g.ShowMenu, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
 
-    //---// Clild 0 //-----------------------------------//
-    ImGui::BeginChild("##SelectChild", ImVec2(150.f, ImGui::GetContentRegionAvail().y), false);
-
-    ImGui::NewLine();
-
+    // SelectButton
     for (int i = 0; i < MenuFCList.size(); i++)
     {
-        if (ImGui::Button(MenuFCList[i].c_str(), ImVec2(ImGui::GetContentRegionAvail().x, 35.f)))
+        static float width = (ImGui::GetContentRegionAvail().x / 3.f) - 6.f;
+        if (ImGui::Button(MenuFCList[i].c_str(), ImVec2(width, 35.f)))
             Index = i;
+
+        if (i != MenuFCList.size() - 1)
+            ImGui::SameLine();
     }
 
-    ImGui::EndChild();
-    //---// Clild 0 //-----------------------------------//
-
-    ImGui::SameLine();
-
-    //---// Clild 1 //-----------------------------------//
-    ImGui::BeginChild("##ContextChild", ImVec2(ImGui::GetContentRegionAvail()), false);
+    ImGui::Spacing();
 
     //---// Left //--------------------------------------//
     ImGui::BeginChild("##LeftChild", ImVec2(ImGui::GetContentRegionAvail().x / 2.f - 16.f, ImGui::GetContentRegionAvail().y), false);
 
     switch (Index)
     {
-    case 0: // local
-        ImGui::Checkbox("GodMode", &g.GodMode);
-        ImGui::Checkbox("FastRun", &g.FastRun);
+    case 0: // aim
+        /* [+] KeyBinder Example
+        if (ImGui::Button(g.KeyBinding && g.BindingID == 1 ? "< Press Any Key >" : KeyNames[g.AimKey0], ImVec2(215.f, 20.f)))
+        {
+            g.KeyBinding = true;
+            g.BindingID = 1;
+            std::thread([&]() {this->KeyBinder(g.AimKey0); }).detach();
+        }
+        */
         break;
-    case 1: // aim
-
-        break;
-    case 2: // visual
+    case 1: // visual
         ImGui::Text("Visual");
         ImGui::Separator();
         ImGui::Spacing();
 
-        ImGui::Checkbox("Player ESP", &g.PlayerESP);
+        ImGui::Checkbox("ESP", &g.ESP);
 
         ImGui::NewLine();
         ImGui::Spacing();
@@ -103,16 +70,17 @@ void Cheat::RenderMenu()
         ImGui::Checkbox("Distance", &g.ESP_Distance);
         ImGui::Checkbox("HealthBar", &g.ESP_HealthBar);
         break;
-    case 3: // game
-        ImGui::Text("System");
+    case 2: // misc
+        ImGui::Text("Player");
         ImGui::Separator();
-        ImGui::Spacing();
-        ImGui::Checkbox("StreamProof", &g.StreamProof);
-        ImGui::Checkbox("Crosshair", &g.Crosshair);
-        ImGui::Combo("Type", &g.CrosshairType, CrosshairList, IM_ARRAYSIZE(CrosshairList));
-        break;
-    case 4: // setting
-        
+        ImGui::Checkbox("GodMode", &g.GodMode);
+
+        ImGui::NewLine();
+        ImGui::Text("Weapon");
+        ImGui::Separator();
+        ImGui::Checkbox("NoRecoil", &g.NoRecoil);
+        ImGui::Checkbox("NoSpread", &g.NoSpread);
+        ImGui::Checkbox("RangeBypass", &g.RangeBypass);
         break;
     default:
         break;
@@ -126,19 +94,10 @@ void Cheat::RenderMenu()
 
     switch (Index)
     {
-    case 0: // local
+    case 0: // aim
+        
         break;
-    case 1: // aim
-        /* [+] KeyBinder Example
-        if (ImGui::Button(g.KeyBinding && g.BindingID == 1 ? "< Press Any Key >" : KeyNames[g.AimKey0], ImVec2(215.f, 20.f)))
-        {
-            g.KeyBinding = true;
-            g.BindingID = 1;
-            std::thread([&]() {this->KeyBinder(g.AimKey0); }).detach();
-        }
-        */
-        break;
-    case 2: // visual
+    case 1: // visual
         ImGui::Text("ESP Setting");
         ImGui::Separator();
         ImGui::Spacing();
@@ -156,9 +115,16 @@ void Cheat::RenderMenu()
         ImGui::ColorEdit4("Player", &ESP_Player.Value.x);
         ImGui::ColorEdit4("Skeleton", &ESP_Skeleton.Value.x);
         break;
-    case 3: // game
-        break;
-    case 4: // setting
+    case 2: // misc
+        ImGui::Text("System");
+        ImGui::Separator();
+        ImGui::Spacing();
+        ImGui::Checkbox("StreamProof", &g.StreamProof);
+
+        ImGui::NewLine();
+        ImGui::NewLine();
+        ImGui::NewLine();
+
         // Exit
         if (ImGui::Button("Exit", ImVec2(ImGui::GetContentRegionAvail().x, 30.f)))
             g.Run = false;
@@ -166,9 +132,6 @@ void Cheat::RenderMenu()
     default:
         break;
     }
-
-    ImGui::EndChild();
-    //---------------------------------------------------//
 
     ImGui::EndChild();
     //---------------------------------------------------//
@@ -181,25 +144,14 @@ void Cheat::RenderESP()
     CPed* pLocal = &local;
     Matrix ViewMatrix = m.Read<Matrix>(viewport + 0x24C);
 
-    // Access EntityList
-    uintptr_t ReplayInterface = m.Read<uintptr_t>(m.BaseAddress + offset::ReplayInterface);
-    uintptr_t EntityListPtr = m.Read<uintptr_t>(ReplayInterface + 0x18);
-    uintptr_t EntityList = m.Read<uintptr_t>(EntityListPtr + 0x100);
+    if (!pLocal->Update())
+        return;
 
-    for (int i = 0; i < 256; i++) 
+    for (auto& ped : EntityList)
     {
-        CPed ped, *pEntity = &ped;
-        uintptr_t player = m.Read<uintptr_t>(EntityList + (i * 0x10));
+        CPed* pEntity = &ped;
 
-        if (!pEntity->GetPlayer(player))
-            continue;
-        
-        // Checks
-        if (player == pLocal->ptr)
-            continue;
-        else if (!pLocal->Update())
-            continue;
-        else if (!pEntity->Update())
+        if (!pEntity->Update())
             continue;
 
         float pDistance = GetDistance(pEntity->m_vPosition, pLocal->m_vPosition);
@@ -207,30 +159,23 @@ void Cheat::RenderESP()
         if (pDistance >= g.ESP_MaxDistance)
             continue;
 
-        Vector3 gHead = pEntity->GetBonePosition(0);
-        Vector3 gNeck = pEntity->GetBonePosition(7);
-        Vector3 gFoot1 = pEntity->GetBonePosition(1);
-        Vector3 gFoot2 = pEntity->GetBonePosition(2);
-
-        // Box—p
-        Vector2 pBase{}, pFoot1{}, pFoot2{}, pHead{}, pNeck{}, pLocalPos{};
-        if (Vec3_Empty(gHead) || Vec3_Empty(gNeck) || Vec3_Empty(gFoot1) || Vec3_Empty(gFoot2))
-            continue;
-        else if (!WorldToScreen(ViewMatrix, pEntity->m_vPosition, pBase) || !WorldToScreen(ViewMatrix, gFoot1, pFoot1) || !WorldToScreen(ViewMatrix, gFoot2, pFoot2) || !WorldToScreen(ViewMatrix, gHead, pHead) || !WorldToScreen(ViewMatrix, gNeck, pNeck) || !WorldToScreen(ViewMatrix, pLocal->m_vPosition, pLocalPos))
+        // Box
+        Vector2 pBase{}, pHead{}, pNeck{}, pLeftFoot{}, pRightFoot{};
+        if (!WorldToScreen(ViewMatrix, pEntity->m_vPosition, pBase) || !WorldToScreen(ViewMatrix, pEntity->BoneList[HEAD], pHead) || !WorldToScreen(ViewMatrix, pEntity->BoneList[NECK], pNeck) || !WorldToScreen(ViewMatrix, pEntity->BoneList[LEFTFOOT], pLeftFoot) || !WorldToScreen(ViewMatrix, pEntity->BoneList[RIGHTFOOT], pRightFoot))
             continue;
 
-        // ESP Resource
+        // ESP用にいくつかサイズを出しておく
         float HeadToNeck = pNeck.y - pHead.y;
         float pTop = pHead.y - (HeadToNeck * 2.5f);
-        float pBottom = (pFoot1.y > pFoot2.y ? pFoot1.y : pFoot2.y) * 1.001f;
+        float pBottom = (pLeftFoot.y > pRightFoot.y ? pLeftFoot.y : pRightFoot.y) * 1.001f;
         float pHeight = pBottom - pTop;
-        float pWidth  = pHeight / 3.5f;
+        float pWidth = pHeight / 3.5f;
         float bScale = pWidth / 1.5f;
-        ImColor color = pEntity->IsPlayer() ? ESP_Player : ESP_NPC;
+        ImColor color = pEntity->isPlayer() ? ESP_Player : ESP_NPC;
 
         // Line
         if (g.ESP_Line)
-            DrawLine(ImVec2(pLocalPos.x, pLocalPos.y), ImVec2(pBase.x, pBottom), color, 1.f);
+            DrawLine(ImVec2(g.GameRect.right / 2.f, g.GameRect.bottom), ImVec2(pBase.x, pBottom), color, 1.f);
 
         // Box
         if (g.ESP_Box)
@@ -247,14 +192,14 @@ void Cheat::RenderESP()
             // Body
             for (int j = 0; j < 5; j++)
             {
-                Vector3 bone1 = pEntity->GetBonePosition(SkeletonBoneList[j][0]);
-                Vector3 bone2 = pEntity->GetBonePosition(SkeletonBoneList[j][1]);
+                Vector3 skList[][2] = { { pEntity->BoneList[NECK], pEntity->BoneList[HIP] }, { pEntity->BoneList[NECK], pEntity->BoneList[LEFTHAND] },
+                    { pEntity->BoneList[NECK], pEntity->BoneList[RIGHTHAND] }, { pEntity->BoneList[HIP], pEntity->BoneList[LEFTFOOT] }, { pEntity->BoneList[HIP], pEntity->BoneList[RIGHTFOOT] } };
 
-                if (Vec3_Empty(bone1) || Vec3_Empty(bone2))
+                if (Vec3_Empty(skList[j][0]) || Vec3_Empty(skList[j][1]))
                     break;
 
                 Vector2 ScreenB1{}, ScreenB2{};
-                if (!WorldToScreen(ViewMatrix, bone1, ScreenB1) || !WorldToScreen(ViewMatrix, bone2, ScreenB2))
+                if (!WorldToScreen(ViewMatrix, skList[j][0], ScreenB1) || !WorldToScreen(ViewMatrix, skList[j][1], ScreenB2))
                     break;
 
                 DrawLine(ImVec2(ScreenB1.x, ScreenB1.y), ImVec2(ScreenB2.x, ScreenB2.y), ESP_Skeleton, 1.f);
@@ -269,7 +214,7 @@ void Cheat::RenderESP()
             if (pEntity->m_fArmor > 0.f)
                 ArmorBar((pBase.x + pWidth) + 3.f, pBottom, 2.f, -pHeight, pEntity->m_fArmor, 100);
         }
-        
+
         // Distance
         if (g.ESP_Distance)
         {

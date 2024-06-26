@@ -62,7 +62,7 @@ void Overlay::DestroyOverlay()
     UnregisterClassA(wc.lpszClassName, wc.hInstance);
 }
 
-// 占有スレッドで動かす
+// 繧ｪ繝ｼ繝舌�ｼ繝ｬ繧､縺ｮ邂｡逅�繧定｡後≧
 void Overlay::OverlayManager()
 {
     while (g.Run)

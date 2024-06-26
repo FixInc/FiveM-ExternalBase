@@ -14,8 +14,8 @@ private:
 	// OverlayWindow
 	WNDCLASSEXA wc;
 	HWND Hwnd;
-	char Title[32] = "FUCK RUSSIA";
-	char Class[32] = "XiJinPing IS GAY";
+	char Title[32] = "FUCK NAZI-RUSSIA";
+	char Class[32] = "wnd-class";
 public:
 	bool CreateOverlay();
 	void OverlayLoop();

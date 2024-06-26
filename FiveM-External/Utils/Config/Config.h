@@ -13,7 +13,7 @@ struct Globals
     POINT GamePoint{};
 
     // Visual
-    bool PlayerESP = true;
+    bool ESP = true;
     bool ESP_Box = true;
     bool ESP_Line = false;
     bool ESP_Distance = true;
@@ -23,13 +23,12 @@ struct Globals
 
     // System
     bool StreamProof = false;
-    bool Crosshair = false;
-    int CrosshairType = 0;
-    int RainbowRate = 25;
 
     // Misc
     bool GodMode = false;
-    bool FastRun = false;
+    bool NoRecoil = false;
+    bool NoSpread = false;
+    bool RangeBypass = false;
 
     // Key
     int MenuKey = VK_INSERT;

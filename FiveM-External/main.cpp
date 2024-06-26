@@ -2,10 +2,10 @@
 #include "Cheat\Cheat.h"
 #include "Utils\Memory\Memory.h"
 
-Cheat *fm = new Cheat;
-Overlay *ov = new Overlay;
+Cheat* five = new Cheat;
+Overlay* ov = new Overlay;
 
-// Debug時のみコンソールを表示
+// Debug譎ゅ�ｮ縺ｿ繧ｳ繝ｳ繧ｽ繝ｼ繝ｫ縺ゅｊ
 #if _DEBUG
 int main()
 #else 
@@ -23,13 +23,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	if (!ov->CreateOverlay())
 		return 2;
 
+	// Create some threads
 	g.Run = true;
-	std::thread([&]() {ov->OverlayManager(); }).detach();
+	std::thread([&]() { ov->OverlayManager(); }).detach();
+	std::thread([&]() { five->UpdateList(); }).detach();
+	std::thread([&]() { five->Misc(); }).detach();
 
 	ov->OverlayLoop();
 	ov->DestroyOverlay();
 	CloseHandle(m.pHandle);
-	delete fm, ov;
+	delete five, ov;
 
 	return 0;
 }
@@ -49,13 +52,13 @@ void Overlay::OverlayLoop()
 		ImGui_ImplWin32_NewFrame();
 		ImGui::NewFrame();
 
-		fm->RenderInfo();
+		five->RenderInfo();
 
 		if (g.ShowMenu)
-			fm->RenderMenu();
+			five->RenderMenu();
 
-		if (g.PlayerESP)
-			fm->RenderESP();
+		if (g.ESP)
+			five->RenderESP();
 
 		ImGui::Render();
 		const float clear_color_with_alpha[4] = { 0.f, 0.f, 0.f, 0.f };

@@ -28,7 +28,7 @@ bool Memory::Init()
     }
 
     char pModule[128]{};
-    GetModuleBaseNameA(pHandle, nullptr, pModule, sizeof(pModule));
+    GetModuleBaseNameA(pHandle, nullptr, pModule, sizeof(pModule)); // FiveM_b2944_GTAProcess.exe
     BaseAddress = GetModuleBase(pModule);
 
     return true;
